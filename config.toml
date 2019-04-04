@@ -1,6 +1,7 @@
 baseurl = "/"
 languageCode = "ko-kr"
 theme = "hello-friend-ng"
+favicon = "favicon.ico"
 
 [params]
   dateform        = "Jan 2, 2006"
