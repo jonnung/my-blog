@@ -45,6 +45,11 @@ theme = "hello-friend-ng"
         name = "Posts"
         url = "/posts"
 
+[sitemap]
+  changefreq = "monthly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
 # And you can even create generic menu
 [menu]
   [[menu.main]]
