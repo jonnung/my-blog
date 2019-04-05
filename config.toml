@@ -3,6 +3,7 @@ languageCode = "ko-kr"
 theme = "hello-friend-ng"
 favicon = "favicon.ico"
 enableEmoji = true
+googleAnalytics = "UA-43871004-5"
 [params]
   dateform        = "Jan 2, 2006"
   dateformShort   = "Jan 2"
