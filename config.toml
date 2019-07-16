@@ -19,6 +19,7 @@ googleAnalytics = "UA-43871004-5"
   contentTypeName = "posts"
   # Default theme "light" or "dark"
   defaultTheme = "light"
+  comments = true
 
 [languages]
   [languages.en]
