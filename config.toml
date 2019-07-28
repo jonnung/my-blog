@@ -1,4 +1,4 @@
-baseurl = "/"
+baseurl = "https://jonnung.dev"
 languageCode = "ko-kr"
 theme = "hello-friend-ng"
 favicon = "favicon.ico"
