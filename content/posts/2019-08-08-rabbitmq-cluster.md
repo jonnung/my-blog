@@ -3,13 +3,15 @@ title: "RabbitMQ 클러스터 구성하기"
 date: 2019-08-08T22:30:00+09:00
 draft: false
 toc: false
-images: []
+images: [/images/rabbitmq_twin.png]
 tags:
   - rabbitmq
 url: /rabbitmq/2019/08/08/rabbitmq-cluster/
 description: RabbitMQ를 클러스터로 구성하고, HA(고가용성)를 위한 Mirroring(미러링) 설정하는 방법을 설명 합니다.
 ---
 
+{{< image src="/images/rabbitmq_twin.png" position="center" >}}
+<br/>
 RabbitMQ를 클러스터로 구성하는 방법은 아래 3가지가 존재한다.
 
 1. config file 에 클러스터 노드 목록을 정의
