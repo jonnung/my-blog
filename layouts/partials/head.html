@@ -60,3 +60,11 @@
 {{- end }}
 
 {{ template "_internal/google_analytics.html" . }}
+
+<!-- open graph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="{{ if .IsHome }}{{ $.Site.Title }} {{ with $.Site.Params.Subtitle }} — {{ . }} {{ end }}{{ else }}{{ .Title }} :: {{ $.Site.Title }} {{ with $.Site.Params.Subtitle }} — {{ . }}{{ end }}{{ end }}"/>
+<meta property="og:description" content="{{ if .IsHome }}{{ .Site.Params.homeSubtitle }}{{ else }}{{ .Summary | plainify }}{{ end }}"/>
+<meta property="og:site_name" content="{{ .Site.Title }}"/>
+<meta property="og:url" content="{{ .Site.BaseURL }}"/>
+<meta property="og:locale" content="ko">
