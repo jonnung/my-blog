@@ -3,7 +3,7 @@ title: "Jetbrains Upsource - 뜻밖에 고퀄리티 코드 협업 도구 (Revers
 date: 2020-01-05T16:08:42+09:00
 draft: false
 toc: false
-images:
+images: [/images/upsource_logo.png]
 tags:
   - devops
 url: /devops/2020/01/05/jetbrains_upsource_code_review_collaboration_tool/
