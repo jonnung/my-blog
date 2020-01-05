@@ -3,7 +3,9 @@ comments: true
 title: "Python3 Formatted String Literals (aka f-string)"
 date: 2018-10-02T11:39:54+09:00
 tags:
-- python
+  - python
+categories:
+  - python
 url: /python/2018/10/02/python3-formatted-string-literals/
 ---
 

@@ -3,8 +3,10 @@ comments: true
 title: "젠킨스 Master/Slave 분산 빌드 환경 구축하기"
 date: 2018-08-15T14:49:03+09:00
 tags:
-- devops
-- jenkins
+  - devops
+	- jenkins
+categories:
+  - devops
 url: /devops/2018/08/15/jenkins-distributed-builds/
 ---
 

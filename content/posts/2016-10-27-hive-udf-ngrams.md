@@ -2,7 +2,9 @@
 comments: true
 date: 2016-10-27T11:00:00Z
 tags:
-- hive
+  - hive
+categories:
+  - database
 title: Hive UDF - ngrams
 url: /hive/2016/10/27/hive-udf-ngrams/
 ---

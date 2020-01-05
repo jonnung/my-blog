@@ -3,8 +3,11 @@ comments: true
 title: "Django에서 pytest로 테스트하기 위한 기본기"
 date: 2018-12-22T11:37:00+09:00
 tags:
-- django
-- pytest
+  - django
+  - pytest
+  - tdd
+categories:
+  - python
 url: /django/2018/12/30/pytest-django/
 description: Django 프로젝트에서 Pytest를 이용해 유닛 테스트를 작성하기 위해 사용하는 pytest-django 플러그인의 기본 사용법
 ---

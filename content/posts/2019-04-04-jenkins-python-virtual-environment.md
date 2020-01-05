@@ -6,6 +6,8 @@ toc: false
 tags:
   - jenkins
   - python
+categories:
+  - devops
 url: /python/2019/04/04/jenkins-pyenv-python-job/
 description: 젠킨스(Jenkins)에서 파이썬(Python)을 이용한 작업 스케줄을 등록할 때 빈번하게 설정하는 파이썬 가상 환경(venv) 세팅 가이드 (feat. pyenv)
 ---

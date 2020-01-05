@@ -4,6 +4,8 @@ date: 2015-08-06T23:16:07Z
 tags:
 - php
 - http
+categories:
+  - php
 title: PHP 로 HTTP raw post data를 다루는 방법
 url: /php/2015/08/06/php-use-http-raw-post-data/
 ---

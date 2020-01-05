@@ -3,8 +3,9 @@ comments: true
 title: "RabbitMQ 동작 이해하기"
 date: 2019-02-06T17:17:00+09:00
 tags:
-- rabbitmq
-- explanation
+  - rabbitmq
+categories:
+  - system
 url: /rabbitmq/2019/02/06/about-amqp-implementtation-of-rabbitmq/
 description: AMQP를 구현한 RabbitMQ 내부 구성과 동작 방식을 이해함으로써 실전에서 RabbitMQ를 운영하기 위한 기초를 다진다.
 ---

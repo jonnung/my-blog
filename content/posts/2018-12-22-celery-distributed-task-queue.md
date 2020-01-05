@@ -3,8 +3,11 @@ comments: true
 title: "분산 비동기 작업 처리를 위한 Celery 첫걸음"
 date: 2018-12-22T11:37:00+09:00
 tags:
-- python
-- celery
+  - python
+  - celery
+categories:
+  - infra
+  - how-to
 url: /python/2018/12/22/celery-distributed-task-queue/
 description: Celery를 이용해 비동기 작업을 처리하기 위한 Celery 개념과 기초 사용법
 ---

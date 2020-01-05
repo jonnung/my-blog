@@ -39,30 +39,27 @@ googleAnalytics = "UA-43871004-5"
 
 	# You can create a language based menu
     [languages.en.menu]
-#      [[languages.en.menu.main]]
-#        identifier = "about"
-#        name = "About"
-#        url = "/about"
+      # [[languages.en.menu.main]]
+      #   identifier = "about"
+      #   name = "About"
+      #   url = "/about"
       [[languages.en.menu.main]]
-        identifier = "showcase"
+        identifier = "posts"
         name = "Posts"
         url = "/posts"
+      [[languages.en.menu.main]]
+        identifier = "categories"
+        name = "Categories"
+        url = "/categories"
+      [[languages.en.menu.main]]
+        identifier = "tags"
+        name = "Tags"
+        url = "/tags"
 
 [sitemap]
   changefreq = "monthly"
   filename = "sitemap.xml"
   priority = 0.5
-
-# And you can even create generic menu
-[menu]
-  [[menu.main]]
-    identifier = "about"
-    name       = "About"
-    url        = "/about"
-  [[menu.main]]
-    identifier = "blog"
-    name       = "Blog"
-    url        = "/posts"
 
 [taxonomies]
 category = "categories"

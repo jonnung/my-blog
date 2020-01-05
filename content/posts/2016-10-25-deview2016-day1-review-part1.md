@@ -2,7 +2,9 @@
 comments: true
 date: 2016-10-25T02:14:04Z
 tags:
-- conference
+  - deview
+categories:
+  - conference
 title: DEVIEW2016 첫째날(DAY 1) 참석 후기 - Part1
 url: /review/2016/10/25/deview2016-day1-review-part1/
 ---

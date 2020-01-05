@@ -2,7 +2,9 @@
 comments: true
 date: 2016-12-17T11:00:00Z
 tags:
-- php
+  - php
+categories:
+  - php
 title: PHP에서 세션(session)에 대한 주의할 점과 성능 개선 방법
 url: /php/2016/12/17/php-session-start-inefficient/
 ---

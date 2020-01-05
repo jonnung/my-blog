@@ -2,7 +2,9 @@
 comments: true
 date: 2016-02-17T02:05:09Z
 tags:
-- vagrant
+  - vagrant
+categories:
+  - system
 title: 통합 개발환경 구축을 위한 Vagrant와 프로비저닝 (1)
 url: /vagrant/2016/02/17/vagrant_provisioning_1/
 ---

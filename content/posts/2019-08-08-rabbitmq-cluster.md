@@ -6,6 +6,9 @@ toc: false
 images: [/images/rabbitmq_twin.png]
 tags:
   - rabbitmq
+categories:
+  - infra
+  - system
 url: /rabbitmq/2019/08/08/rabbitmq-cluster/
 description: RabbitMQ를 클러스터로 구성하고, HA(고가용성)를 위한 Mirroring(미러링) 설정하는 방법을 설명 합니다.
 ---

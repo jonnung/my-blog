@@ -3,8 +3,10 @@ comments: true
 title: "자바스크립트 테스트 프레임워크 간단 비교"
 date: 2018-11-15T11:39:54+09:00
 tags:
-- javascript
-- tdd
+  - javascript
+  - tdd
+categories:
+  - frontend
 url: /javascript/2018/11/15/tdd-javascript-testing-framework/
 ---
 

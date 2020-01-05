@@ -2,7 +2,9 @@
 comments: true
 date: 2016-10-28T11:00:00Z
 tags:
-- jenkins
+  - jenkins
+categories:
+  - devops
 title: Jenkins 프로젝트(jobs) 설정이 사라지는 오류 및 일단위 백업하기
 url: /jenkins/2016/10/28/jenkins-jobs-backup/
 ---

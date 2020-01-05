@@ -6,6 +6,8 @@ toc: false
 images:
 tags:
   - python
+categories:
+  - python
 url: /python/2019/11/23/ordinary-python-development-environment/
 description: 파이썬 개발을 시작하면서 만나게 되는 여러 가지 선택과 궁금증에 대한 가장 보통의 선택을 할 수 있는 가이드다. 파이썬 버전을 여러 개 설치하는 방법, Virtualenv는 무엇이며 어떻게 쓰는 것인가, 코드 스타일 가이드(PEP8) 지키기 위해 유용한 도구들과 다른 파이썬 라이브러리를 설치하고 관리하는 방법, 마지막으로 직접 파이썬 패키지를 만들어서 배포하는 가장 쉬운 방법에 대해 알 수 있다.
 ---

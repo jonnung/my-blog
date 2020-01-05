@@ -2,7 +2,9 @@
 comments: true
 date: 2016-02-16T01:55:32Z
 tags:
-- vagrant
+  - vagrant
+categories:
+  - system
 title: Vagrant 에 ssh로 외부에서 접속하기
 url: /vagrant/2016/02/16/vagrant_external_ssh/
 ---

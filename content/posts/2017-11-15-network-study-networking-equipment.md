@@ -3,7 +3,9 @@ comments: true
 title: "[네트워킹 기초 공부] 네트워크 장비들 - 허브(Hub), 브릿지(Bridge), 스위치(Switch), 라우터(Router)"
 date: 2017-11-15T06:00:17+09:00
 tags:
-- network
+	- network
+categories:
+  - system
 url: /network/2017/11/15/network-study-networking-equipments/
 ---
 ![network equipment](/images/network-cable-ethernet-computer.jpeg)

@@ -2,7 +2,9 @@
 comments: true
 date: 2016-08-07T23:34:04Z
 tags:
-- go
+  - go
+categories:
+  - golang
 title: Golang - nil 비교하기
 url: /golang/2016/08/07/go-compare-nil/
 ---

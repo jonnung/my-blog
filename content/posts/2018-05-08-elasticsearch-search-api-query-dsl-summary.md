@@ -3,7 +3,9 @@ comments: true
 title: "Elasticsearch 검색(\_search) API 사용법과 Query DSL 요약 정리"
 date: 2018-05-08T21:36:00+09:00
 tags:
-- elasticsearch
+  - elasticsearch
+categories:
+  - infra
 url: /elasticsearch/2018/05/08/elasticsearch-search-api-query-dsl-summary/
 ---
 ### 사전 지식

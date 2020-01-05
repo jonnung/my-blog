@@ -2,7 +2,9 @@
 comments: true
 date: 2016-08-04T23:01:26Z
 tags:
-- go
+  - go
+categories:
+  - golang
 title: Golang - go install 과 go build 의 차이
 url: /golang/2016/08/04/go_install_and_go_build/
 ---

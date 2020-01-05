@@ -3,7 +3,9 @@ comments: true
 title: "앵귤러 두걸음(Angular Two Steps)"
 date: 2018-07-06T19:52:03+09:00
 tags:
-- angular
+  - angular
+categories:
+  - frontend
 url: /angular/2018/07/06/angular-two-steps/
 ---
 ### 앵귤러 ~~첫걸음~~ 두걸음

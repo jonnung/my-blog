@@ -6,6 +6,8 @@ toc: false
 images:
 tags:
   - python
+categories:
+  - python
 ---
 
 **pathlib** 모듈은 파일 시스템을 객체 기반으로 다루기 위해 [PEP428](https://www.python.org/dev/peps/pep-0428/)에서 시작 되었고, Python3.4에서 공식 빌트인 모듈로 추가 되었다. 파일 시스템을 객체 기반으로 다뤘을 때 장점은 `datetime`, `time`, `ipaddress` 모듈처럼 추상화된 인터페이스를 사용했을 때 얻는 이점과 동일하다. 

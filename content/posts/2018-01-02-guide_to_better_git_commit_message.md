@@ -3,7 +3,9 @@ comments: true
 title: "Guide to better Git - 좋은 커밋 메시지 작성하기 "
 date: 2018-01-02T03:14:17+09:00
 tags:
-- git
+  - git
+categories:
+  - git
 url: /git/2018/01/02/guide-to-better-git-commit-message/
 ---
 

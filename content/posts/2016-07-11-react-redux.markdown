@@ -2,8 +2,10 @@
 comments: true
 date: 2016-07-11T23:01:26Z
 tags:
-- react
-- redux
+  - react
+  - redux
+categories:
+  - frontend
 title: Redux 공식 사이트에서 학습한 내용 정리
 url: /react/2016/07/11/react-redux/
 ---

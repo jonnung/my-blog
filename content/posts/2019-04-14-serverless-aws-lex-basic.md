@@ -8,6 +8,9 @@ tags:
   - serverless
   - aws
   - lex
+categories:
+  - serverless
+  - aws
 ---
 ## 개인적인 학습 배경 이야기
 

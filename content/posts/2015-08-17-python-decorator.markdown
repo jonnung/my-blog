@@ -2,8 +2,9 @@
 comments: true
 date: 2015-08-17T20:57:58Z
 tags:
-- python
-- pep318
+  - python
+categories:
+  - python
 title: 파이썬 데코레이터(Python Decorator) 를 이해하고 잘 써보기
 url: /python/2015/08/17/python-decorator/
 ---

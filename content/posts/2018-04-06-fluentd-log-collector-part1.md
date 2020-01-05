@@ -3,7 +3,9 @@ comments: true
 title: "Fluentd란 무엇인가? 구조와 기능 살펴보기"
 date: 2018-04-06T14:00:00+09:00
 tags:
-- fluentd
+  - fluentd
+categories:
+  - infra
 url: /system/2018/04/06/fluentd-log-collector-part1/
 ---
  서버로 들어오는 요청이나 DB에서 실행되는 SQL, 각종 배치 스크립트가 실행되면서 남기는 로그들을 기본적인 파일 형태로만 남기고, 주기적으로 로테이팅 되기만 하고 버려지고 있었다. 

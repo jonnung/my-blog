@@ -2,7 +2,9 @@
 comments: true
 date: 2016-02-19T11:12:52Z
 tags:
-- vagrant
+  - vagrant
+categories:
+  - system
 title: Vagrant 실행시 공유 폴더가 마운트 되지 않는 오류
 url: /vagrant/2016/02/19/vagrant_up_fail_to_mount_guest_directory/
 ---

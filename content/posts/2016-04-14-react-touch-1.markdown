@@ -2,7 +2,9 @@
 comments: true
 date: 2016-04-14T01:49:50Z
 tags:
-- react
+  - react
+categories:
+  - frontend
 title: React 건드리기 1일차
 url: /react/2016/04/14/react-touch-1/
 ---

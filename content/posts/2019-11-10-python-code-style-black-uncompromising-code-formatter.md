@@ -6,6 +6,8 @@ toc: false
 images:
 tags:
   - python
+categories:
+  - python
 url: /python/2019/11/10/python-black-uncompromising-code-formatter/
 description: Black은 파이썬 소프트웨어 재단(PSF)에서 개발하고, PEP8을 기반으로 가독성이 더 좋은 코드 스타일로 고쳐 주는 자동 포맷터이다.
 ---

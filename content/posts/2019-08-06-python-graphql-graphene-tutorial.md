@@ -9,6 +9,8 @@ tags:
   - python
   - graphene
   - django
+categories:
+  - graphql
 url: /graphql/2019/08/05/python-graphql-graphene-tutorial/
 description: Python을 이용해 GraphQL 서버를 구현 해본다. Python의 대표적인 웹 프레임워크인 Django와 Graphene 라이브러리를 연동해서 GraphQL Schema를 정의하고, 서버를 구동해서 쿼리를 실행한다.
 ---

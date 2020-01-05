@@ -6,6 +6,8 @@ toc: false
 images: [/images/graphql_logo.png]
 tags:
   - graphql
+categories:
+  - graphql
 url: /graphql/2019/07/23/graphql-getting-started/
 description: GraphQL에 대한 소개와 기본 개념, 특징에 대해 다룬다. RESTful API와 비교해서 GraphQL이 갖는 장점과 어떤 문제를 해결할 수 있는지 살펴본다.
 ---

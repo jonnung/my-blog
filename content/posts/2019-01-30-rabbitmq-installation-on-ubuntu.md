@@ -3,8 +3,10 @@ comments: true
 title: "Ubuntu 에서 RabbitMQ 설치하기"
 date: 2019-01-30T11:50:00+09:00
 tags:
-- rabbitmq
-- tutorial
+  - rabbitmq
+categories:
+  - how-to
+  - infra
 url: /rabbitmq/2019/01/30/rabbitmq-installation-on-ubuntu/
 description: RabbitMQ 서버를 설치하는 가이드 이며, 공식 사이트를 바탕으로 Ubutu 16.04 환경에서 설치
 ---

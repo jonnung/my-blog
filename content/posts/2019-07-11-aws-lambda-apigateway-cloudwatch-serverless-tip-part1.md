@@ -10,6 +10,9 @@ tags:
   - lambda
   - api-gateway
   - cloudwatch
+categories:
+  - serverless
+  - aws
 url: /serverless/2019/07/11/lambda-apigateway-cloudwatch-tip-part1/
 description: AWS Lambda와 API Gateway, Cloudwatch를 이용해 서버리스 API를 구축하면서 알아두면 도움이 될만한 내용 중 첫번째. AWS Lambda는 다양한 프로그래밍 언어를 지원하며, 이 포스트는 Python을 기준으로 작성되었다. Lambda 함수를 설정할 때와 handler 함수의 특징을 설명하고, 외부 라이브러리를 설치하고 패키징 후 배포하는 방법을 다룬다.
 ---

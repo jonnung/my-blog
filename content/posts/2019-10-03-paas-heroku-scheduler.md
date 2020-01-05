@@ -6,6 +6,8 @@ toc: false
 images:
 tags:
   - heroku
+categories:
+  - serverless
 url: /paas/2019/10/03/heroku-scheduler/
 description: Heroku에서 Crontab처럼 작업을 스케줄링 할 수 있는 Add-on을 소개합니다.
 ---

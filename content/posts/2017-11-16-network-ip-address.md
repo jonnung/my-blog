@@ -3,7 +3,9 @@ comments: true
 title: "[네트워킹 기초 공부] IP Address"
 date: 2017-11-16T06:00:17+09:00
 tags:
-- network
+  - network
+categories:
+  - system
 url: /network/2017/11/15/network-study-ip-address/
 ---
 ![network switch](https://static.pexels.com/photos/442150/pexels-photo-442150.jpeg)
