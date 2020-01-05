@@ -63,3 +63,7 @@ googleAnalytics = "UA-43871004-5"
     identifier = "blog"
     name       = "Blog"
     url        = "/posts"
+
+[taxonomies]
+category = "categories"
+tag = "tags"

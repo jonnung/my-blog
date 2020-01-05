@@ -6,6 +6,9 @@ toc: false
 images: [/images/upsource_logo.png]
 tags:
   - devops
+  - dev-tool
+categories:
+  - devops
 url: /devops/2020/01/05/jetbrains_upsource_code_review_collaboration_tool/
 ---
 
@@ -13,7 +16,9 @@ url: /devops/2020/01/05/jetbrains_upsource_code_review_collaboration_tool/
 {{< image src="/images/upsource_logo.png" position="center" style="border-radius: 8px; box-shadow: 0px 0px 13px 2px rgba(0,0,0,0.3);">}}
 
 [**Upsource**](https://www.jetbrains.com/ko-kr/upsource/)는 **Jetbrains**에서 만든 코드 리뷰 도구이다. Upsource 서버를 통해 기본적으로 웹 브라우저를 통해 코드 변경사항과 커밋 메시지, 커밋한 사람, Diff 보기, 코드 리뷰 생성과 의견을 주고받을 수 있는 기능을 제공한다.  
+
 Github이나 Gitlab 등이 제공하는 저장소 히스토리 그래프와 커밋 내용, 브랜치도 모두 볼 수 있다. 하지만 Git 저장소를 직접 호스팅하는 기능은 갖고 있지 않다. Upsource의 근본적인 컨셉은 **코드 리뷰 협업**에 있기 때문인 것 같다.  
+
 이미 모든 회사에서 Github, Gitlab, Bitbucket 같은 Git 호스팅 서비스를 사용하고 있고, 이미 이 시장을 선점하고 있는 3대장(서로간 격차는 무시하고)과 굳이 비벼볼 필요는 없지 않을까 생각한다. 그래서 오히려  더 나은 **코드 리뷰** 경험을 위한 도구라는 측면을 강조하는 것이 **Upsource**의 필요성을 부각하는 데 도움이 될 것 같다.  
 
 > <뒷 이야기>  
@@ -25,6 +30,7 @@ Github이나 Gitlab 등이 제공하는 저장소 히스토리 그래프와 커�
 <br/>
 ## Docker로 Upsource 서버 시작
 먼저 Upsource가 권장하는 시스템 사양 중 메모리(RAM)는 8GB 이상이다. 예상보다 최소 요구사항이 높은편인 것 같았다. 하지만 개발팀에서 다 같이 사용하기 위해 이 정도 투자는 할 수 있지 않을까?  
+
 그리고 Upsource는 10명 이하까지는 무료 라이선스를 제공한다. 따라서 팀 규모가 10명 이상이라면 프로젝트나 담당 영역(예: Frontend, Backend, App 등)에 맞게 나눠서 여러 Upsource 서버를 구성하는 것도 방법이 될 것 같다.
 
 설치는 간단하다. [ZIP](https://www.jetbrains.com/help/upsource/zip-installation.html)으로 압축된 아카이브를 내려받아 포함된 Bash 스크립트로 실행하거나, Docker 이미지로 프로세스를 실행할 수 있다. 
@@ -36,13 +42,15 @@ Github이나 Gitlab 등이 제공하는 저장소 히스토리 그래프와 커�
 $ docker pull jetbrains/upsource:2019.1.1578
 ```
 
-Docker 컨테이너를 실행하기 전 Upsource 프로세스가 실행되면서 생성하는 데이터(data), 설정 파일(conf), 로그(logs), 백업(backups) 폴더를 호스트 OS와 마운트하기 위해 생성해 둬야 한다.
+Docker 컨테이너를 실행하기 전 Upsource 프로세스가 실행되면서 생성하는 데이터(data), 설정 파일(conf), 로그(logs), 백업(backups) 폴더를 호스트 OS와 마운트하기 위해 생성해 둬야 한다.  
+
 
 ```bash
 cd /home/apps/upsouce;
 mkdir -p -m 750 data conf logs backups
 chown -R 13001:13001 data conf logs backups
 ```
+
 
 Upsource 서버는 기본적으로 `:8080` 포트로 요청을 받는다. 현재 호스트 OS에 동일한 포트가 사용되고 있지 않다면 `-p 8080:8080`처럼 같게 하고, 아니면 `-p 5000:8080` 형태로 포트 포워딩 설정을 변경해야 한다. 
 
@@ -63,9 +71,9 @@ jetbrains/upsource:2019.1.1578
 
 > Reverse Proxy란? 단순한 예를 들자면 분산된 WAS를 인터넷을 통해 클라이언트에게 직접 노출하지 않고, 특정 서버가 대신 받아 요청된 Host나 포트에 따라 적절히 라우팅해 주고, 버퍼 역할을 해주는 Proxy 서버를 말한다.   
 
-아래 설정은 Reverse Proxy로 많이 사용하는 Nginx 설정이다. Nginx에서 직접 SSL 인증서를 통해 HTTPS 요청을 받을 수 있도록 `443`포트를 열고 있다.  
+아래 설정은 Reverse Proxy로 많이 사용하는 Nginx 설정이다. Nginx에서 직접 TLS 인증서를 통해 HTTPS 요청을 받을 수 있도록 `443`포트를 열고 있다.  
 만약 HTTPS를 제공할 수 없다면 `80`을 사용해야 한다. 근데 요즘 세상에 HTTPS를 제공하지 않는다면...☠️  
-아무튼 HTTPS로 서비스하기 위한 다른 방법은 Upsource 서버에서 직접 SSL 인증서를 사용해 HTTPS 요청을 받을 수도 있다.  
+아무튼 HTTPS로 서비스하기 위한 다른 방법은 Upsource 서버에서 직접 TLS 인증서를 사용해 HTTPS 요청을 받을 수도 있다.  
 
 ```
 server {
@@ -74,7 +82,6 @@ server {
     access_log  /var/log/nginx/access.log main;
 
     include /home/apps/nginx/conf/ssl.conf;
-    include /home/apps/nginx/conf/acl/dev-tools.conf;
 
     location / {
         proxy_pass  http://{upsource-server-host}:8080;
