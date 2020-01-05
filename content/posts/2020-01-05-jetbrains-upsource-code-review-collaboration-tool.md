@@ -15,9 +15,9 @@ url: /devops/2020/01/05/jetbrains_upsource_code_review_collaboration_tool/
 ## Upsource 소개
 {{< image src="/images/upsource_logo.png" position="center" style="border-radius: 8px; box-shadow: 0px 0px 13px 2px rgba(0,0,0,0.3);">}}
 
-[**Upsource**](https://www.jetbrains.com/ko-kr/upsource/)는 **Jetbrains**에서 만든 코드 리뷰 도구이다. Upsource 서버를 통해 기본적으로 웹 브라우저를 통해 코드 변경사항과 커밋 메시지, 커밋한 사람, Diff 보기, 코드 리뷰 생성과 의견을 주고받을 수 있는 기능을 제공한다.  
+[**Upsource**](https://www.jetbrains.com/ko-kr/upsource/)는 **Jetbrains**에서 만든 코드 리뷰 도구이다. Upsource는 웹 브라우저를 통해 코드 변경사항과 커밋 메시지, 커밋한 사람, Diff 보기, 코드 리뷰 생성과 의견을 주고받을 수 있는 기능을 제공한다.  
 
-Github이나 Gitlab 등이 제공하는 저장소 히스토리 그래프와 커밋 내용, 브랜치도 모두 볼 수 있다. 하지만 Git 저장소를 직접 호스팅하는 기능은 갖고 있지 않다. Upsource의 근본적인 컨셉은 **코드 리뷰 협업**에 있기 때문인 것 같다.  
+Github이나 Gitlab 등이 제공하는 저장소 히스토리 그래프와 커밋 내용, 브랜치도 모두 볼 수 있다. 하지만 Git 저장소를 직접 호스팅하는 기능은 갖고 있지 않다. Upsource의 근본적인 컨셉은 **코드 리뷰 협업**에 있기 때문이다.  
 
 이미 모든 회사에서 Github, Gitlab, Bitbucket 같은 Git 호스팅 서비스를 사용하고 있고, 이미 이 시장을 선점하고 있는 3대장(서로간 격차는 무시하고)과 굳이 비벼볼 필요는 없지 않을까 생각한다. 그래서 오히려  더 나은 **코드 리뷰** 경험을 위한 도구라는 측면을 강조하는 것이 **Upsource**의 필요성을 부각하는 데 도움이 될 것 같다.  
 
@@ -31,7 +31,7 @@ Github이나 Gitlab 등이 제공하는 저장소 히스토리 그래프와 커�
 ## Docker로 Upsource 서버 시작
 먼저 Upsource가 권장하는 시스템 사양 중 메모리(RAM)는 8GB 이상이다. 예상보다 최소 요구사항이 높은편인 것 같았다. 하지만 개발팀에서 다 같이 사용하기 위해 이 정도 투자는 할 수 있지 않을까?  
 
-그리고 Upsource는 10명 이하까지는 무료 라이선스를 제공한다. 따라서 팀 규모가 10명 이상이라면 프로젝트나 담당 영역(예: Frontend, Backend, App 등)에 맞게 나눠서 여러 Upsource 서버를 구성하는 것도 방법이 될 것 같다.
+그리고 Upsource는 10명 이하까지는 무료 라이선스를 제공한다. 따라서 팀 규모가 10명 이상이라면 프로젝트나 담당 영역(예: Frontend, Backend, App 등)에 맞게 분리된 여러 Upsource서버를 구성하는 방법도 있다.  
 
 설치는 간단하다. [ZIP](https://www.jetbrains.com/help/upsource/zip-installation.html)으로 압축된 아카이브를 내려받아 포함된 Bash 스크립트로 실행하거나, Docker 이미지로 프로세스를 실행할 수 있다. 
 여기서는 실행 환경과 관계없이 안정적인 실행을 보장하는 [Docker](https://www.jetbrains.com/help/upsource/docker-installation.html) 이미지를 사용해서 Upsource 서버를 실행한다.
@@ -126,5 +126,5 @@ Gitlab과 연동을 하려면 [Gitlab 어드민에 Application 설정에 Upsourc
 
 <br/>
 ## 마치며
-Jetbrains 답게 높은 완성도와 깔끔하고 직관적인 UI 덕분에 코드 리뷰와 커뮤니케이션할 때 많은 도움이 될 것 같다. RAM을 다소 많이 쓰는 것 같지만 그만큼 빠른 속도감이 장점인 것 같다.  
+Jetbrains 답게 높은 완성도와 깔끔하고 직관적인 UI 덕분에 코드 리뷰와 커뮤니케이션할 때 많은 도움이 될 것 같다. RAM을 다소 많이 쓰는 것 같지만 그만큼 빠른 속도가 장점이다.  
 Jetbrains IDE를 쓴다면 [Upsource plugin](https://www.jetbrains.com/help/upsource/installing-plugin.html)을 함께 쓸 수 있다고 한다.  
