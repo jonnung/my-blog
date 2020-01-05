@@ -6,6 +6,7 @@ toc: false
 images:
 tags:
   - devops
+url: /devops/2020/01/05/jetbrains_upsource_code_review_collaboration_tool/
 ---
 
 ## Upsource 소개
