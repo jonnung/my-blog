@@ -9,6 +9,7 @@ tags:
 categories:
   - docker
 url: /docker/2020/02/16/docker_network/
+description: 도커를 설치하게 되면 생기는 일 Docker를 설치한 후 Host의 네트워크 인터페이스를 살펴보면 docker0라는 가상 인터페이스가 생긴다. docker0는 일반적인 가상 인터페이스가 아니며 도커가 자체적으로 제공하는 네트워크 드라이버 중 브리지(Bridge)에 해당한다. 도커에서 사용할 수 있는 네트워크 종류는 브리지(bridge), 호스트(host), 논(none) 등이 있다.
 ---
 
 ## 도커를 설치하게 되면 생기는 일
@@ -96,7 +97,7 @@ $ ip addr
 <br/>
 직접 확인해보기 위해 간단한 도커 컨테이너 2개를 실행시켜본다.  
 `busybox`이미지를 이용해서 5분간 Sleep 상태를 유지 하도록 했다.  
-```shell
+```
 $ docker run -d --rm --name busybox1 busybox sleep 300
 $ docker run -d --rm --name busybox2 busybox sleep 300
 ```
@@ -104,7 +105,7 @@ $ docker run -d --rm --name busybox2 busybox sleep 300
 그 다음 컨테이너 내부 네트워크 인터페이스를 확인해보자.  
 `eth0` 인터페이스에 각각 `172.17.0.2`, `172.17.0.3` IP가 할당 되었다.  
 
-```shell
+```
 $ docker exec -it busybox1 ip addr
 
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue qlen 1
@@ -117,7 +118,7 @@ $ docker exec -it busybox1 ip addr
        valid_lft forever preferred_lft forever
 ```
 
-```shell
+```
 $ docker exec -it busybox2 ip addr
 
 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue qlen 1
@@ -131,7 +132,7 @@ $ docker exec -it busybox2 ip addr
 ```
 <br/>
 이제 호스트의 네트워크 인터페이스 상태를 확인해보면 `veth4eb48a6`, `veth40d220d` 인터페이스가 새로 생성된 것을 볼 수 있다.  
-```shell
+```
 $ ip link
 
 # 일부 생략
@@ -144,15 +145,16 @@ $ ip link
 ```
 <br/>
 `brctl` 명령어를 통해 브릿지 네트워크 상태를 확인해보면 `veth4eb48a6`, `veth40d220d` 인터페이스가 `docker0`브릿지에 연결된 것을 확인할 수 있다.  
-```shell
-brctl show
+```
+$ brctl show
+
 bridge name	bridge id		STP enabled	interfaces
 docker0		8000.024290f4b3c5	no		veth4eb48a6
 											veth40d220d
 ```
 <br/>
 마지막으로 컨터이너의 게이트웨이를 확인 해보면 `172.17.0.1`된 것을 볼 수 있는데 결국 컨테이너 내부의 모든 패킷이 호스트의 `docker0`을 통해 외부로 나가게 되는 것을 확인할 수 있다.  
-```shell
+```
 $ docker exec -it busybox1 route
 
 Kernel IP routing table
