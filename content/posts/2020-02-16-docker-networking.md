@@ -87,10 +87,10 @@ $ ip addr
 그리고 위에서 언급한 대로 `172.17.0.0/16` 대역의 IP를 순차적으로 할당 받는다. 이 IP는 컨테이너가 재시작할 때마다 변경될 수 있다.  
 
 컨테이너는 외부와 통신하기 위해 2개의 네트워크 인터페이스를 함께 생성한다.  
-하나는 컨테이너 내부 Namespace에 할당되는`eth0` 이름의 인터페이스이고, 나머지 하나는 호스트 네트워크 브릿지  `docker0`에 바인딩 되는 `vethXXXXXXX`이름 형식의 **veth 인터페이스**다. ("veth"는 "virtual eth"라는 의미)  
+하나는 컨테이너 내부 Namespace에 할당되는`eth0` 이름의 인터페이스이고, 나머지 하나는 호스트 네트워크 브리지  `docker0`에 바인딩 되는 `vethXXXXXXX`이름 형식의 **veth 인터페이스**다. ("veth"는 "virtual eth"라는 의미)  
 컨테이너의 `eth0`인터페이스와 호스트의 `veth` 인터페이스는 서로 연결되어 있다.  
 
-결국 `docker0` 브리지는 각 `veth`인터페이스와 연결돼 호스트의 `eth0` 인터페이스와 이어주는 역할을 한다. 그리고 컨테이너의 `eth0`인터페이브스는 호스트의 `veth`인터페이스를 통해 외부와 통신할 수 있게 되는 것이다.
+결국 `docker0` 브리지는 `veth` 가상 인터페이스와 호스트의 `eth0` 인터페이스를 이어주는 중간 다리 역할을 한다. 그리고 컨테이너 안에 `eth0`인터페이스는 `veth` 가상 인터페이스를 통해 외부와 통신할 수 있게 되는 것이다.
 
 {{< image src="/images/docker_network.png" position="center" style="border-radius: 8px; box-shadow: 0px 0px 13px 2px rgba(0,0,0,0.3);">}}
 
@@ -102,7 +102,7 @@ $ docker run -d --rm --name busybox1 busybox sleep 300
 $ docker run -d --rm --name busybox2 busybox sleep 300
 ```
 <br/>
-그 다음 컨테이너 내부 네트워크 인터페이스를 확인해보자.  
+먼저 컨테이너 내부 네트워크 인터페이스를 확인해보자.(Ubuntu 18.04 기준)  
 `eth0` 인터페이스에 각각 `172.17.0.2`, `172.17.0.3` IP가 할당 되었다.  
 
 ```
@@ -131,7 +131,7 @@ $ docker exec -it busybox2 ip addr
        valid_lft forever preferred_lft forever
 ```
 <br/>
-이제 호스트의 네트워크 인터페이스 상태를 확인해보면 `veth4eb48a6`, `veth40d220d` 인터페이스가 새로 생성된 것을 볼 수 있다.  
+이제 호스트의 네트워크 인터페이스를 보면 `veth4eb48a6`, `veth40d220d` 가상 인터페이스가 새로 생성된 것을 볼 수 있다.  
 ```
 $ ip link
 
@@ -144,13 +144,25 @@ $ ip link
     link/ether 16:e1:c4:6c:eb:e8 brd ff:ff:ff:ff:ff:ff link-netnsid 1
 ```
 <br/>
-`brctl` 명령어를 통해 브릿지 네트워크 상태를 확인해보면 `veth4eb48a6`, `veth40d220d` 인터페이스가 `docker0`브릿지에 연결된 것을 확인할 수 있다.  
+`brctl` 명령어를 통해 브리지 네트워크 상태를 확인해보면 `veth4eb48a6`, `veth40d220d` 인터페이스가 `docker0` 브리지에 연결된 것을 확인할 수 있다.  
 ```
 $ brctl show
 
 bridge name	bridge id		STP enabled	interfaces
 docker0		8000.024290f4b3c5	no		veth4eb48a6
 											veth40d220d
+```
+<br/>
+두 컨테이너(`busybox1`, `busybox2`)는 브리지를 통해 같은 네트워크상에 있기 때문에 한쪽 컨테이너에서 다른 컨테이너와 통신할 수 있게 된다.
+```
+$ docker exec -it busybox2 ping 172.17.0.2
+
+PING 172.17.0.2 (172.17.0.2): 56 data bytes
+64 bytes from 172.17.0.2: seq=0 ttl=64 time=0.109 ms
+64 bytes from 172.17.0.2: seq=1 ttl=64 time=0.064 ms
+64 bytes from 172.17.0.2: seq=2 ttl=64 time=0.058 ms
+64 bytes from 172.17.0.2: seq=3 ttl=64 time=0.072 ms
+
 ```
 <br/>
 마지막으로 컨터이너의 게이트웨이를 확인 해보면 `172.17.0.1`된 것을 볼 수 있는데 결국 컨테이너 내부의 모든 패킷이 호스트의 `docker0`을 통해 외부로 나가게 되는 것을 확인할 수 있다.  
