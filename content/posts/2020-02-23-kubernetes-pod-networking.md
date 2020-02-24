@@ -10,21 +10,22 @@ tags:
 categories:
   - kubernetes
 url: /kubernetes/2020/02/24/kubernetes-pod-networking/
-description: Pod 안에 있는 모든 컨테이너들은 localhost로 다른 컨테이너와 통신할 수 있고, 쿠버네티스 클러스터내 모든 Pod는 CNI 네트워크 플러그인을 이용해 서로 통신할 수 있다. Flannel을 이용한 오버레이 네트워크를 통해 Pod가 서로 통신하는 방식을 알아본다. 
+description: Pod 안에 있는 모든 컨테이너들은 localhost로 서로 통신할 수 있고, 쿠버네티스 클러스터내 모든 Pod는 CNI 네트워크 플러그인을 이용해 서로 통신할 수 있다. Flannel을 이용한 오버레이 네트워크를 통해 Pod가 서로 통신하는 방식을 알아본다. 
 ---
 {{< image src="/images/pascal-van-de-vendel-HLGejFzm77Y-unsplash.jpg" position="center">}}
 </br>
 ## Pod 안에 도커 컨테이너 간의 네트워킹
-Pod 안에 있는 모든 컨테이너들은 localhost로 다른 컨테이너와 통신할 수 있다.   
-그 원리는 일반적으로 도커 컨테이너가 시작될 때 `veth0`라는 가상 네트워크 인터페이스를 함께 만드는데 쿠버네티스는 Pod를 생성할 때 `veth0` 인터페이스를 컨테이너끼리 함께 공유하도록 설정하기 때문이다.  
+Pod 안에 있는 모든 컨테이너들은 localhost로 서로 통신할 수 있다.   
+그 원리는 도커 컨테이너가 시작될 때 `veth0`라는 가상 네트워크 인터페이스를 함께 만들어지는데 쿠버네티스는 Pod를 생성할 때 `veth0` 인터페이스를 공유해서 컨테이너끼리 함께 사용하도록 하기 때문이다.  
 
-따라서 아래 그림에서 보이는 Container-1과 Container-2는 하나의 Pod에 속해 있으며, `veth0` 가상 인터페이스에 공유하고 있어 동일한 IP 주소로 접근할 수 있게 된다. (당연히 두 컨테이너는 서로 다른 포트를 사용함)  
+따라서 아래 그림에서 보이는 Container-1과 Container-2는 하나의 Pod 안에서 `veth0` 가상 인터페이스를 공유하고 있으며, 동일한 IP 주소로 갖게 된다. 하지만 당연히 두 컨테이너는 서로 다른 포트를 사용해야 접근할 수 있다.  
 
-이렇게 Pod 안에 컨테이너들은 서로 격리된 상태에서 독립적인 일을 수행할 수 있으면서 네트워크 통신이 가능하다는 장점을 갖게 된다. 
+이렇게 Pod 안에 컨테이너들은 격리된 상태에서 독립적인 일을 수행할 수 있으면서 서로 네트워크 통신이 가능하다는 장점을 갖게 되었다.  
 
 {{< image src="/images/pod_veth0_share.png" position="center" style="width: 80%; border-radius: 8px; box-shadow: 0px 0px 13px 2px rgba(0,0,0,0.3);">}}
 
-여기서 조금 특별한 점은 쿠버네티스가 Pod 안에서 `veth0` 가상 인터페이스를 공유하기 위해 `pause`라는 특별한 컨테이너를 만든다는 것이다.  
+그렇다면 쿠버네티스가 가상 네트워크 인터페이스를 공유할까?  
+쿠버네티스는 Pod 안에서 `veth0` 가상 인터페이스를 공유하기 위해 `pause`라는 특별한 컨테이너를 만든다.  
 
 `pause` 컨테이너는 다른 컨테이너들의 통신과 외부 통신을 위한 가상 네트워크 인터페이스만 제공하며, 쿠버네티스가 SIGTERM 신호를 보내기 전까지 아무것도 하지 않고 sleep 상태로 대기한다. 
 
@@ -32,41 +33,43 @@ Pod 안에 있는 모든 컨테이너들은 localhost로 다른 컨테이너와 
 
 </br>
 ## 쿠버네티스 클러스터 내 Pods 간의 네트워킹
-쿠버네티스 클러스터는 Master 노드와 여러 Worker 노드(호스트)로 구성된다. 클러스터에 속한 노드들은 사설(private) 네트워크에 속하기 때문에 서로 통신할 수 있다.  
-하지만 Pod에 할당된 IP는 호스트의 사설 네트워크 대역에 포함되지 않는다.  
-그 이유는 위에서 살펴본 대로 Pod 안에 컨테이너들은 `pause`컨테이너가 만든 가상 인터페이스를 통해 호스트의 `docker0`브리지 네트워크에 연결되어 있기 때문이다.
+쿠버네티스 클러스터는 Master 노드와 Worker 노드로 구성된다. 클러스터에 속한 노드들은 사설(private) 네트워크에 속하기 때문에 서로 통신할 수 있다.  
+하지만 Pod에 할당된 IP는 노드의 사설 네트워크 대역에 포함되지 않는다.  
+그 이유는 위에서 살펴본 대로 Pod 안에 컨테이너들은 `pause`컨테이너가 만든 가상 인터페이스를 통해 호스트의 `docker0` 브리지 네트워크로 연결되기 때문이다.  
+해당 노드로 요청을 보내면 가장 먼저 호스트의 `eth0`을 거친 후 `docker0` 브리지를 통해 `veth0`으로 전송된다. 그 다음에 `veth0`에 연결된 컨테이너의 `eth0`로 전달된다.  
 
-{{< image src="/images/k8s_pod_network_basic.png" position="center" style="width: 80%; border-radius: 8px; box-shadow: 0px 0px 13px 2px rgba(0,0,0,0.3);">}}
+{{< image src="/images/k8s_pod_network_basic.png" position="center" style="width: 80%; border-radius: 8px; box-shadow: 0px 0px 13px 2px rgba(0,0,0,0.3);">}}  
 
-`puase`컨테이너가 제공한 `veth0` 가상 네트워크 인터페이스가 생성될 때 로컬 라우팅 규칙에 따라 호스트의 `eth0`으로 도착한 패킷은 `docker0`브리지를 통해 `veth0`으로 전송된다.
-
-만약 위 그림에서 왼쪽 Worker 노드에서 오른쪽 Worker 노드에 있는 Pod에 요청을 보내려면 어떻게 해야할까?
-만약 `10.100.0.2` 노드에 `172.17.0.2`IP를 갖는 Pod가 있다는 사실을 알고 있다면 라우터에 적절한 설정을 통해 패킷을 보낼 수는 있을 것이다.  
-하지만 문제는 또 다른 노드에 있는 Pod IP도 `172.17.0.2`일 수 있다.  
-즉, Worker 노드마다`veth0` 가상 인터페이스에 의한 Pod IP 주소가 같을 수 있다. 
+만약 위 그림에 있는 왼쪽 Worker 노드의 Pod에서 오른쪽 Worker 노드의 Pod로 요청을 보내려면 어떻게 해야할까?  
+오른쪽 노드(`10.100.0.3`)에 `172.17.0.2`IP를 갖는 Pod가 있다는 사실을 알고 있다면 라우터에서 적절한 설정을 통해 패킷을 보낼 수는 있을 것이다.  
+하지만 문제는 또 다른 노드에 있는 Pod도 `172.17.0.2` IP를 가질 수 수 있다는 것이다.  
+즉, Worker 노드마다 `veth0` 가상 인터페이스에 의한 Pod IP 주소가 같을 수 있다. 
 
 </br>
 ### 오버레이 네트워크
-이 문제를 해결하기 위해서 "오버레이 네트워크(overlay network)" 방식을 통해 Pod가 서로 통신할 수 있는 구성을 만들 수 있다.   
+이 문제를 해결하기 위해서 "**오버레이 네트워크(overlay network)**" 방식을 통해 Pod가 서로 통신할 수 있는 구성을 만들 수 있다.   
 "오버레이 네트워크"란 실제 노드 간의 네트워크 위에 별도 Flat한 네트워크를 구성하는 것을 의미한다.  
 
 쿠버네티스는 자체적으로 네트워크 구성 해주지 않기 때문에 클러스터를 구성할 때 CNI(Container Network Interface) 규약을 구현한 [CNI 플러그인](https://kubernetes.io/docs/concepts/cluster-administration/addons/#networking-and-network-policy)을 함께 설치해야 한다.  
 그래서 `kubeadm`으로 쿠버네티스 클러스터를 구성할 때 CNI 네트워크 플러그인이 설치되기 전에는 CoreDNS가 시작되지 않는 모습(PENDING)을 볼 수 있다.   
 
-CNI 플러그인 중 오버레이 네트워크를 제공하는 대표적인 플러그인은 **Flannel**이 있으며, **Calico**는 오버레이 네트워크는 물론이며, Pod 간의 통신과 다른 외부 네트워크 통신을 허용하는 네트워크 정책 관리 기능을 제공하기도 한다.
+CNI 플러그인 중 오버레이 네트워크를 제공하는 대표적인 플러그인은 **[Flannel](https://github.com/coreos/flannel)**이 있으며, **[Calico](https://www.projectcalico.org/)**는 오버레이 네트워크는 물론이며, Pod 간의 통신과 다른 외부 네트워크 통신을 허용하는 네트워크 정책 관리 기능을 제공하기도 한다.
 
 </br>
 ### Flannel로 오버레이 네트워크 이해하기
-오버레이 네트워크를 이해하기 위해 Flannel을 쿠버네티스 클러스터의 네트워크 플러그인으로 설치하자.   
-하지만 안타깝게도 이 포스트에서는 쿠버네티스 클러스터 구성과 Flannel 설치를 다루지 않기 때문에 이미 Flannel이 설치된 쿠버네시트 클러스터가 있다고 가정한다.   
+오버레이 네트워크를 이해하기 위해 쿠버네티스 클러스터에 Flannel을 네트워크 플러그인으로 설치했다고 가정해보자.  
+(이 클러스터는 Master 노드(k8s-test001) 1대와 Worker 노드(k8s-test002, k8s-test003) 2대로 구성되어 있다.)  
 
 먼저 샘플 Pod 2개를 생성할 것이다.  
+
 첫번째 샘플 Pod는 `busybox`를 베이스 이미지로 단순하게 Sleep 상태를 유지하는 컨테이너를 실행할 것이고, 두번째 샘플 Pod는 Python의 `SimpleHTTPRequestHandler`로 구현한 간단한 HTTP 서버이다.  
+
 각 Pod는 오버레이 네트워크 상에서 IP를 할당 받고, 그 IP를 통해 서로 통신할 수 있게 된다.  
 따라서 `busybox`컨테이너가 실행되고 있는 Pod에서 Python `HTTP`서버가 있는 Pod로 GET 요청을 보내는 방식으로 테스트를 진행할 것이다.  
 
 아래 Pod manifest를 각각 `busybox_pod.yaml`와 `py_simple_httpd_pod.yaml`로 저장하고, `kubectl apply` 명령어로 Pod를 생성한다.  
 ```yaml
+# busybox_pod.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -84,6 +87,7 @@ spec:
 ```
 
 ```yaml
+# py_simple_httpd_pod.yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -104,6 +108,8 @@ spec:
 ```
 
 ```shell
+# 쿠버네티스 마스터 노드에서 Pod 생성하기
+
 kubectl apply -f busybox_pod.yaml
 kubectl apply -f py_simple_httpd_pod.yaml
 ```
@@ -152,7 +158,8 @@ cni0		8000.825f78b5bd20	no		veth246a4f62
 										vethcf3c37c8
 ```
 
-이제 진짜`k8s-test002`Worker 노드의 `busybox` Pod에서 `k8s-test003`Worker 노드에 있는 Python 서버 Pod(`10.244.2.6`)로 요청을 보내보자!  
+이제 진짜 busybox(`10.244.1.6`) Pod에서 Python 서버 Pod(`10.244.2.6`)로 요청을 보내보자!  
+
 ```
 root@k8s-test002 ▸ docker exec -it {{busybox 컨테이너 ID}} wget http://10.244.2.6:8585
 ```
