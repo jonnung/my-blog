@@ -32,7 +32,7 @@ VPC 이름과 IPv4 CIDR 블록은 필수다. CIDR 블록 범위는 사설망 대
 
 ```shell
 export VPC_ID=$(aws ec2 create-vpc \
-  --cidr-block 192.168.0.0/16 \
+  --cidr-block 10.1.1.0/24 \
   --output text \
   --query 'Vpc.VpcId')
 ```
@@ -68,7 +68,7 @@ VPC만으로는 할 수 있는게 없고 **서브넷(Subnet)**을 만들어야 �
 export SUBNET_ID=$(aws ec2 create-subnet \
   --vpc-id ${VPC_ID} \
   --availability-zone ap-northeast-2c \
-  --cidr-block 192.168.1.0/24 \
+  --cidr-block 10.1.1.0/26 \
   --output text --query 'Subnet.SubnetId')
 ```
 ```shell
@@ -226,7 +226,7 @@ export MASTER_INSTANCE_ID=$(aws ec2 run-instances \
     --key-name k8s \
     --security-group-ids ${SECURITY_GROUP_ID} \
     --instance-type t2.micro \
-    --private-ip-address 192.168.1.10 \
+    --private-ip-address 10.1.1.10 \
     --user-data "name=master" \
     --subnet-id ${SUBNET_ID} \
     --output text --query 'Instances[].InstanceId')
@@ -249,7 +249,7 @@ export WORKER_INSTANCE_ID=$(aws ec2 run-instances \
     --key-name k8s \
     --security-group-ids ${SECURITY_GROUP_ID} \
     --instance-type t2.micro \
-    --private-ip-address 192.168.1.20 \
+    --private-ip-address 10.1.1.20 \
     --user-data "name=worker" \
     --subnet-id ${SUBNET_ID} \
     --output text --query 'Instances[].InstanceId')
