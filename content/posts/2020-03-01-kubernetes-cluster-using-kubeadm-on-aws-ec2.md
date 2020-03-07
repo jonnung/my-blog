@@ -246,7 +246,7 @@ export WORKER_INSTANCE_ID=$(aws ec2 run-instances \
     --associate-public-ip-address \
     --image-id ${IMAGE_ID} \
     --count 1 \
-    --key-name kubernetes \
+    --key-name k8s \
     --security-group-ids ${SECURITY_GROUP_ID} \
     --instance-type t2.micro \
     --private-ip-address 192.168.1.20 \
