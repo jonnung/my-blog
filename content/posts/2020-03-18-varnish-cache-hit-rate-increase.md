@@ -16,10 +16,11 @@ url: /system/2020/03/18/increasing-varnish-cache-hit-rate/
 
 > 이 글은 웹 서버 또는 API 서버의 응답 결과를 캐시하기 위한 Reverse Proxy로서 활용되는 Varnish 캐시 서버에 대해서 다룬다.  
 > 하지만 설치와 실행 방법은 다루지 않으며 Varnish 캐시 서버가 어떤 방식으로 요청에 대한 캐시 데이터 생성하는 지 원리를 이해하고, 캐시 효율을 높일 수 있는 방법에 대해 이야기 한다.   
+> 실습을 통해 캐시가 히트되는 원리를 이해하는 과정이 조금 길게 느껴질 수 있다. "캐시 히트 효율을 높이는 방법"을 먼저 확인하려면 마지막 "결론" 부분을 참고하면 된다.   
 
 ## Varnish 캐시 서버 소개
 
-**Varnish**는 HTTP 요청(request)에 대해 신속한 응답을 제공할 수 있도록 결과를 캐싱(Caching)해서 다음 요청에 대해 응답 시간을 줄여주는 리버스 프록시(Reverse Proxy)이며, 흔히 웹 가속기라고도 불려진다.   
+**Varnish**는 HTTP 요청에 신속한 응답을 제공하기 위해 결과 데이터를 캐싱(Caching)한 뒤 동일한 요청이 다시 들어오면 캐시된 데이터로 내려줘서 응답 시간을 줄여줄 수 있는 리버스 프록시(Reverse Proxy)이다. 흔히 웹 가속기라고도 불려진다.   
 
 요청한 URL을 기준으로 캐시 데이터를 생성하고, 만료 시간(TTL)을 설정해서 캐시가 자동 소멸되는 라이프 타임을 유지한다.   
 그리고 백엔드(Origin) 서버가 여러대인 경우를 위해 로드 밸런싱 기능도 제공한다.   
@@ -36,7 +37,7 @@ Varnish는 캐시를 만들 때 Key로 사용할 해시를 만들기 위해 가�
 그리고 HTTP Request에 포함된 `Host` 헤더가 참조해서 조합에 추가하고, 없다면  `IP` 주소를 사용한다.   
 기본적으로 `Host` 헤더 값은 대소문자를 구분하지 않기 때문에 대소문자가 다를 경우 다른 캐시가 만들어질 수 있다. (하지만 최신 브라우저에서는 보통  소문자 `Host`를 전달하고 있음)
 
-아래 VCL 코드는 Varnish가 캐시 Key를 만들 때 호출 되는 내장된 서브 루틴(Sub Routine)이다.  
+아래 VCL 코드는 Varnish가 캐시 Key를 만들 때 호출 되는 기본 내장된 서브루틴 로직이다.     
 
 ```
 sub vcl_hash {
@@ -113,7 +114,7 @@ docker build -t jonnung/varnish6 -f Dockerfile .
 ### (1) 파이썬으로 HTTP 서버 구현 & 도커 이미지 만들기
 HTTP 요청을 처리하기 위한 파이썬을 이용해 간단한 웹서버를 만들어보자. 파이썬은 HTTP 서버를 구현할 수 있는 `HTTPServer`모듈을 기본 내장하고 있다.   
 
-**https.py**
+**httpd.py**
 
 ```python
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -240,8 +241,8 @@ X-Varnish: 5
 }
 ```
 
-응답 결과에 `X-Cache` 헤더 값이 `MISS`인 것을 볼 수 있다. 처음 들어온 요청이기 때문에 캐시가 없기 때문이다.   
-바로 동일한 다시 요청을 보낸다. 
+응답 결과에 `X-Cache` 헤더 값이 `MISS`인 것을 볼 수 있다. 처음 들어온 요청이기 때문에 캐시된 데이터가 없는 상태다.   
+동일한 요청을 다시 보내본다.   
 
 ```shell
 $ http -v http://127.0.0.1:8080/test1/
@@ -269,28 +270,28 @@ X-Varnish: 5 3
 }
 ```
 
-`X-Cache` 헤더 값이 `HIT`로 반환 되었다. 좀 전 요청으로 Varnish 서버가 결과를 캐시 했기 때문이다.   
+`X-Cache` 헤더 값이 `HIT`로 반환 되었다. 바로 전에 보낸 요청으로 Varnish 서버가 결과를 캐시했기 때문이다.   
 
-다음은 웹 브라우저로 접속한 뒤 응답 헤더를 확인해보자.   
-(참고로 Varnish 캐시 TTL 기본값은 2분(120초)이다.)
+다음은 웹 브라우저로 동일한 URL에 접속한 뒤 응답 헤더를 확인해보자.   
+(참고로 Varnish 캐시 TTL 기본값은 2분이기 때문에 2분 안에 테스트를 해야 한다)
 
 {{< image src="/images/localhost_cache_hit.png" position="center">}}
 
 브라우저를 통해 받은 `X-Cache` 응답 헤더에도 `HIT`가 있는 것을 확인할 수 있다.    
 
-마지막으로 브라우저 주소창에 입력한 `127.0.0.1` 을 `localhost`로 변경해서 확인해보자.   
+과연 Varnish가 URL과 Host를 기준으로 캐시 했는지 확인하기 위해 방금 전 브라우저 주소창에 입력한 `127.0.0.1` 을 `localhost`로 변경해서 확인해보자.   
 
 {{< image src="/images/localhost_cache_miss.png" position="center">}}
 
 `X-Cache`응답 헤더값이 `MISS`로 나타났다.   
-즉, 이 테스트 결과 바탕으로 종합적인 결론은 Varnish 캐시는 **URL**과 **Host**를 조합해서 만든다는 것이 증명되었다.   
+즉, 이 테스트를 통한 종합적인 결론은 Varnish 캐시는 **URL**과 **Host**를 조합해서 만든다는 것이 증명되었다.   
 
 <br/>
 
 ## Vary 응답 헤더로 Varnish 캐시에 미치는 영향
 HTTP 헤더 중 `Vary` 헤더는 응답 헤더로서 캐시 된 응답 결과에 대해 앞으로 들어오는 요청은 캐시된 데이터를 반환할지 아니면 백엔드 서버로 전달할 지 결정하는 과정에서 활용된다.   
 
-> Vary: <header-name>, <header-name>, …  
+> Vary: \<header-name\>, \<header-name\>, …  
 
 `Vary` 헤더 값은 위와 같이 요청 헤더 이름이 콤마(,)로 구분되어 명시되어 있다.   
 
@@ -321,14 +322,15 @@ def do_GET(self):
 $ docker-compose up --build
 ```
 
-이제부터 보내는 HTTP 요청에는 `Vary`헤더에 명시된 `Accept-Language`를 추가한다.    
+이제부터 보내는 HTTP 요청에는 `Vary`헤더에 명시된 `Accept-Language`를 주의깊게 살펴봐야 한다.   
+
 먼저 웹 브라우저로 `http://127.0.0.1:8080/test1/`를 접속한 후 `X-Cache` 값을 확인한다.    
 캐시가 없기 때문에 `MISS`로 나타난다.   
 
 {{< image src="/images/localhost_cache_miss_with_vary_header.png" position="center">}}
 
-이제 Varnish 캐시 서버가 URL + `Host` 헤더 + `Accept-Language`헤더를 Key로 사용해서 캐시를 만들었는지 확인해보자.   
-브라우저 개발자 도구 이용해 방금 전 전송한 HTTP 요청 정보에  `Accept-Language`값을 복사한다. 그 다음 HTTPie 명령어에 요청 헤더에 추가한다.    
+이제 Varnish 서버가 URL + `Host` 헤더 + `Accept-Language`헤더를 Key로 사용해서 캐시를 만들었는지 확인해보자.   
+브라우저 개발자 도구 이용해 방금 전 전송한 HTTP 요청 정보에  `Accept-Language`값을 복사해서 HTTPie 명령어에 요청 헤더를 파라미터로 추가한다.    
 
 ```shell
 $ http -v http://127.0.0.1:8080/test1/ \
@@ -402,11 +404,14 @@ X-Varnish: 24
 ### 예상 되는 문제점
 `Vary`응답 헤더에 따라 Varnish 캐시가 따로 저장될 수 있다는 사실을 알아보기 위해 `Accept-Language` 요청 헤더를 사용했다.    
 
-하지만 이 헤더의 스펙을 보면 언어와 장소(locale) 정보가 대쉬(`-`) 구분되고, `q`값에 가중치를 부여할 수 있는 구조다. 그리고 여러 언어를 명시할 경우 앞뒤 순서가 바뀔 경우 Varnish 캐시 Key 조합에도 다른 문자열로 취급된다.    
+하지만 `Accept-Language` 헤더 명세를 보면 언어와 장소(locale) 정보가 대쉬(`-`) 구분되고, `q`값에 가중치를 부여할 수 있는 구조다.   
+그리고 여러 언어를 명시할 경우 앞뒤 순서가 바뀔 경우 Varnish 캐시 Key 조합에도 다른 문자열로 취급된다.    
 
-따라서 같은 URL에 대해 클라이언트마다 조금씩 다른 `Accept-Language`요청 헤더를 보낸다면 그만큼 다른 캐시가 생성될 것이고, 전체적인 캐시 히트 효율일 떨어질 수 있다.    
+그래서 같은 URL에 대해 여러 클라이언트마다 조금씩 다른 `Accept-Language`요청 헤더를 보낸다면 그만큼 다른 캐시가 생성될 것이고, 전체적인 캐시 히트 효율일 떨어질 수 있다.    
 
 Varnish 공식 문서에서도 캐시 히트 효율을 높이기 위해 요청 헤더를 정규화 해서 다루는 것을 권장하고 있다.    
+
+**[공식 문서에서 발췌](https://www.varnish-software.com/wiki/start/your_varnish_goals.html#http-vary)**
 
 ```
 if (req.http.Accept-Language) {
