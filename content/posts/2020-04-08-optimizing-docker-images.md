@@ -106,7 +106,7 @@ RUN pip install --no-cache-dir matplotlib pandas
 그래도 도커 레이어 개수를 줄이는 것은 최적화 측면에서 도움이 된다고 볼 수 있다.   
 레이어는 `RUN`, `ADD`, `COPY` 명령문에서만 생성되기 때문에 아래와 같이 여러 개로 분리된 명령을 **체이닝(chaining)** 으로 엮어보자.   
 
-레이어 개수가 적다고 도커 이미지/컨테이너 성능에 영향을 주진 않지만 `Dockerfilel` 가독성과 유지 보수 관점에서 도움이 될 것이다.   
+레이어 개수가 적다고 도커 이미지/컨테이너 성능에 영향을 주진 않지만 `Dockerfile` 가독성과 유지 보수 관점에서 도움이 될 것이다.   
 
 ```dockerfile
 RUN apt-get update
