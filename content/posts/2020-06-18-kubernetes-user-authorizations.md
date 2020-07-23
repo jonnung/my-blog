@@ -105,7 +105,8 @@ Tokens:              default-token-s6v58
 ```shell
 $ kubectl describe secret -n testbed default-token-s6v58
 ```
-![](%E1%84%8F%E1%85%AE%E1%84%87%E1%85%A5%E1%84%82%E1%85%A6%E1%84%90%E1%85%B5%E1%84%89%E1%85%B3%E1%84%8B%E1%85%B4_%E1%84%89%E1%85%A1%E1%84%8B%E1%85%AD%E1%86%BC%E1%84%8C%E1%85%A1/k8s_service_account_token_secret.png)
+
+{{< image src="/images/k8s_service_account_token_secret.png" position="center" style="width: 100%; border-radius: 8px; box-shadow: 0px 0px 13px 2px rgba(0,0,0,0.3);">}}
 
 이 토큰은 쿠버네티스 API에 인증하는 과정에서 사용될 수 있다.  
 위 명령어 실행 결과에 출력된 JWT 토큰을 복사해서 쿠버네티스 API 서버로 HTTP 요청을 보낼 때 `Authorization: “Bearer {토큰값}”` 헤더로 실어 보내게 된다.  
@@ -115,8 +116,7 @@ $ kubectl describe secret -n testbed default-token-s6v58
 <br/>
 
 ## 쿠버네티스의 사용자(User)
-특이한 점은 쿠버네티스 내부에는 인증 절차를 거친 사용자(User)에 해당하는 저장된 데이터가 없다는 것이다.  
-단지 User와 Group이라는 개념은 존재하지만, 추상적인 의미로 사용되며, 단순하게 문자열로 식별할 수 있는 정도의 값으로 사용된다.  
+쿠버네티스에는 사용자(User) 개념은 존재하지만 단지 추상적인 의미로 사용되며, 내부에 따로 저장되는 데이터가 아니라 단순히 문자열로 식별할 수 있는 값으로써 사용된다.  
 
 위에서 다룬 인증 과정 중 X.509 인증서를 활용했다고 가정해보자. 만약 하위 인증서를 만들 때 CN(Common Name)으로 'jonnung’이라고 명시했다면, 이 인증서를 통해 인증된 사용자는 쿠버네티스 상에 User라는 개념에 따라 'jonnung'으로 지칭할 수 있게 된다.  
 
@@ -147,11 +147,7 @@ $ kubectl describe secret -n testbed default-token-s6v58
 - **Role** : 특정 네임스페이스에 속하는 오브젝트에 대한 권한을 정의 
 - **ClusterRole** : 클러스터  전체에 모든 네임스페이스에 대한 권한을 정의
 
-아래 Role을 정의하기 위한 매니페스트를 보면  `rules`항목에 정의된 `apiGroups`, `resources`, `verbs`를 통해 어떤 리소스에 어떤 동작을 허용할 지 지정한다.  
-
-- `apiGroups` : 쿠버네티스의 오브젝트가 가지는 목적에 따라 분류되는 카테고리  
-- `resources` : 권한을 정의할 쿠버네티스 오브젝트명  
-- `verbs` : 어떤 동작을 수행할 수 있는지 정의  
+아래 Role 매니페스트를 보면 `rules`항목에 정의된 `apiGroups`, `resources`, `verbs`를 통해 어떤 리소스에 어떤 동작을 허용할 지 지정한다.   
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -164,6 +160,11 @@ rules:
   resources: ["nodes"]
   verbs: ["get", "list"]        
 ```
+ 
+- `apiGroups` : 쿠버네티스의 오브젝트가 가지는 목적에 따라 분류되는 카테고리  
+- `resources` : 권한을 정의할 쿠버네티스 오브젝트명  
+- `verbs` : 어떤 동작을 수행할 수 있는지 정의  
+
 
 ClusterRole의 경우 위에서 정의한 Role 매니페스트에서 `kind` 값만 `ClusterRole`로 바꾸면 된다.   
 ClusterRole은 네임스페이스와 연관 없는 리소스나 네임스페이스마다  공통된 역할로 사용할 수 있기 때문에 동일한 역할을 다시 정의하지 않아도 되는 장점이 있다.  
@@ -171,7 +172,8 @@ ClusterRole은 네임스페이스와 연관 없는 리소스나 네임스페이�
 마지막으로 Role과 ClusterRole을 사용자에게 부여하기 위해 사용하는 오브젝트는 **RoleBinding**과 **ClusterRoleBinding**이 있다.  
 
 여기서 지정하는 사용자는 위에서 먼저 다뤘던 3가지 개념의 사용자가 될 수 있다.  
-아래 예제 ClusterRoleBinding에는 사용자로 SerivceAccount가 지정되는 경우를 나타낸다.   
+아래 ClusterRoleBinding 매니페스트에는 사용자로 SerivceAccount가 지정되는 경우를 나타낸다.   
+
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
