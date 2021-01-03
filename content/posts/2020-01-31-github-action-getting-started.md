@@ -18,13 +18,13 @@ url: /devops/2020/01/31/github_action_getting_started/
 
 Workflow는 Github 저장소에서 발생하는 build, test, package, release, deploy 등 다양한 이벤트를 기반으로 직접 원하는 Workflow를 만들 수 있다.  
 
-Workflow는 **Runners**라고 불리는 Github에서 호스팅 하는 머신의 Linux, macOS, Windows 환경 그리고 컨테이너에서 실행할 수 있다. 물론 Runners를 사용자 호스팅 환경에서 직접 구동시킬 수도 있다.  
+Workflow는 **Runners**라고 불리는 Github에서 호스팅 하는 Linux, macOS, Windows 환경에서 실행된다. 그리고 이 Runners를 사용자가 직접 호스팅하는 환경에서 직접 구동시킬 수도 있다.(self-hosted runner)  
 
-Github 마켓 플레이스에는 공유된 Workflow는 찾을 수 있으며, 자신이 직접 만든 Workflow를 공유할 수 있는 커뮤니티가 존재한다. 
+Github 마켓 플레이스에는 여러 사람이 공유한 Workflow는 찾을 수 있으며, 자신이 직접 만들어서 공유할 수도 있다.  
 
 
 ### ⏳ 얼마나 사용 할 수 있을까?
-Workflow는 저장소마다 최대 20개까지 등록할 수 있다. 그리고 Workflow 안에 존재하는 `Job`이라는 단위마다 최대 6시간 동안 실행될 수 있고, 초과하게 되면 자동으로 중지된다.  
+Workflow는 저장소마다 최대 20개까지 등록할 수 있다. 그리고 Workflow 안에 존재하는 `Job`이라는 단계마다 최대 6시간 동안 실행될 수 있고, 초과하게 되면 자동으로 중지된다.  
 
 그리고 Github 계정 플랜에 따라 전체 Git 저장소를 통틀어 동시 실행할 수 있는 `Job` 개수가 정해져 있다.   
 Job 안에서 Github API를 호출한다면 1시간 동안 최대 1,000번까지만 가능하다.
@@ -41,16 +41,15 @@ Github 무료 계정의 전체 비공개 저장소를 기준으로 한달에 <u>
 
 {{< image src="/images/github_workflow.png" position="center" style="border-radius: 8px; box-shadow: 0px 0px 13px 2px rgba(0,0,0,0.3);">}}
 
-
 하지만 기본적인 방법은 저장소에  `.github/workflows`  폴더를 만들어서 `.yml` 형식 파일 만든 뒤 Workflow를 정의하는 것이다.  
 
 <br/>
-### Workflow 핵심 구성
+### Workflow 주요 구성
 - 어떤 이벤트가 발생했을 때 실행될 수 있다.
 - 최소 1개 이상의 **Job**을 정의해야 한다.
 - Job 안에는 여러 **Step**을 정의할 수 있다.
-- Step 안에는 단순한 커맨드 실행이나 **Action**을 지정할 수 있다. 
-- Action은 저장소에 직접 작성한 것을 사용하거나 Github 마켓플레이스에 공유된 Action을 사용할 수 있다.
+- Step 안에는 단순한 커맨드 실행이나 **Action**을 가져와 사용할 수 있다.
+- Action은 Github 마켓플레이스에 공유된 Action을 이용하거나 현재 저장소에서 직접 만들어서 사용할 수 있다.
 
 
 먼저 간단한 예제를 살펴보면서 구성을 익혀보자.  
@@ -80,11 +79,11 @@ jobs:
 ```
 
 <br/>
-### 이벤트가 발생했을 때 Workflow를 실행하기
+### 어떤 이벤트가 발생했을 때 Workflow를 실행하기
 - Github에 Push나 Pull Request 같은 이벤트가 발생 했을때 실행
 - Crontab처럼 반복 스케줄 사용 (예: `*/5 * * * *`)
-- 외부에서 이벤트를 발생 시키고 싶을 때는 `repository_dispatch` REST API를 통해 커스텀 이벤트를 전달 
-(참고: [External Events - GitHub Help](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows#external-events-repository_dispatch)
+- 외부에서 이벤트를 발생 시키고 싶을 때는 `repository_dispatch` REST API를 통해 커스텀 이벤트를 전달 (참고: [External Events - GitHub Help](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows#external-events-repository_dispatch)
+- 브랜치를 지정하거나 필수 실행 인자를 전달해서 수동으로 실행하기 (`workspace_dispatch`)
 
 
 > ⚠️ **반복 스케줄**은 UTC 타임존 시간을 사용하고, 기본 브랜치나 마지막 커밋을 기준으로 동작한다. 최소 간격은 5분까지만 가능하다. (참고: [Scheduled Events -  Github Help](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/events-that-trigger-workflows#scheduled-events-schedule))  
@@ -93,7 +92,7 @@ jobs:
 ### Git 브랜치나 Git 태그로 이벤트 지정하기
 위에서 설명한 이벤트 중 Push나 Pull Request 이벤트에는 **Git 브랜치**, **Git 태그**, **파일 경로**를 활용해서 좀 더 상세하게 이벤트를 정의할 수 있다.   
 
-아래 예제를 기준으로 살펴보면, `master` 브랜치나 `v1` 태그가 Push 되었을 때 변경 사항 중  `test` 폴더 밑에 파일이 포함된 경우에 Workflow가 실행된다.  
+예를 들자면 `master` 브랜치 또는`v1` 태그가 Push 되었을 때 `test` 폴더안에 어떤 파일이 변경된 경우에 Workflow가 실행되게 할 수 있다.  
 
 ```yaml
 on:
@@ -108,9 +107,10 @@ on:
 
 <br/>
 ### Workflow를 실행할 Runner 지정하기
-Workflow는 Github이 직접 호스팅하는 환경이나 사용자가 직접 호스팅하는 환경에서 실행할 수 있다. 해당 환경에서 직접 실행시키거나 도커 컨테이너를 활용하는 방법도 있다.  
+Workflow는 Github이 직접 호스팅하는 환경이나 사용자가 직접 호스팅하는 환경에서 실행할 수 있다.  
+그리고 그 환경에서 직접 어떤 명령어를 실행시키거나 도커 컨테이너를 활용하는 방법도 있다.  
 
-이 실행 환경은 `runs-on` 항목으로 지정할 수 있고, Github이 호스팅하는 머신 환경은 `Ubuntu`, `Windows`, `MacOS`가 있다. (참고: [Virtual environments for GitHub-hosted runners - GitHub Help](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/virtual-environments-for-github-hosted-runners))
+실행 환경은 `runs-on` 항목으로 지정하고, Github이 호스팅하는 머신 환경은 `Ubuntu`, `Windows`, `MacOS`가 있다. (참고: [Virtual environments for GitHub-hosted runners - GitHub Help](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/virtual-environments-for-github-hosted-runners))
 
 
 <br/>
@@ -209,14 +209,15 @@ jobs:
 
 <br/>
 ### Action 공유하기
-Github 마켓플레이스에 공유된 Action을 둘러보면 알겠지만, Action을 공유할 때는 Action만을 위한 독립된 저장소를 구성하는 것이 좋다.  
+Github 마켓플레이스에 Action을 공유할 때는 Action만을 위한 독립된 저장소를 구성하는 것이 좋다.  
 
 [GitHub Marketplace · Actions to improve your workflow · GitHub](https://github.com/marketplace?type=actions)  
 
 {{< image src="/images/github_market_place.png" position="center" style="border-radius: 8px; box-shadow: 0px 0px 13px 2px rgba(0,0,0,0.3);">}}
 <br/>
 
-만약 Action을 공유할 목적이 아니라 특정 프로젝트에 종속된 구성을 한다면 `action.yaml` 파일을 어디에 두던 상관이 없다. 하지만 `.github/actions/action1`, `.github/actions/action2` 같은 구성을 하는 것이 관리하는 측면에서 유용하다.  
+만약 Action을 공유할 목적이 아니라 특정 프로젝트에 종속된 구성을 한다면 `action.yaml` 파일을 어디에 두던 상관이 없다.  
+하지만 `.github/actions/action1`, `.github/actions/action2` 같은 구성을 하는 것이 관리하는 측면에서 유용하다.  
 
 Action을 독립된 Git 저장소로 구성한다면, 반드시 Public 저장소 타입으로 만들어야 한다.  
 하지만 이 저장소가 바로 Github 마켓 플레이스에 올라가는 건 아니다. 하지만 Github이 자동으로 `action.yml`을 감지해서 마켓 플레이스에 올릴 수 있다는 배너를 노출해준다.  
