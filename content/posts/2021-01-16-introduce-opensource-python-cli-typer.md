@@ -14,8 +14,8 @@ description: CLI 프로그램을 만들 때 반드시 필요한 --help 도움말
 
 #괜찮은오픈소스를소개합니다
 
-혼자 쓸 목적으로 간단한 명령어를 모아 놓거나, 서버에서 Crontab 같은 걸로 주기적으로 실행시킬 때는 보통 Bash로 스크립트를 작성하는 편이다.   
-하지만 스크립트가 단순한 명령어 순서 조합을 넘어서 HTTP 요청 보내거나 데이터를 파싱하고 조합하는 것, 재사용할 로직들이 많아지면 Python으로 작성하는 게 훨씬 빠르고(만드는데) 계속 관리하기도 편한 것 같다.  
+간단한 명령어를 모아 놓거나, Crontab을 활용해 주기적으로 실행시킬 목적으로 Bash 스크립트를 작성할 때가 있다.  
+하지만 단순한 명령어 조합을 넘어서 HTTP 요청을 보내거나 데이터를 파싱하고 조합하고, 중복 로직들이 많아지면 자연스럽게 Python으로 작성하는 게 장기적으로 낫다고 생각해서 선호한다.  
 
 보통 이렇게 만들어지는 프로그램의 형태를 CLI(Command Line Interface)라고 하는데, 'Python은 배터리를 내장하고 있다'는 말처럼 CLI 프로그램을 만들 때 필요한 다양한 기능들을 이미 갖추고 있다.  
 예를 들자면 스크립트를 실행할 때 전달한 Argument를 처리하는 [`argparse`](https://docs.python.org/ko/3/library/argparse.html), 실행 로그를 원하는 곳으로 보낼 수 있는 [`logging`](https://docs.python.org/ko/3/howto/logging.html), [sys](https://docs.python.org/3/library/sys.html) 모듈 안에는 표준 입출력/에러나 종료 처리(exit)를 위한 내장 함수들을 포함하고 있다.  

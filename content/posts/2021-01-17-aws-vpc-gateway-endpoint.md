@@ -40,7 +40,7 @@ VPC 엔드포인트는 가상 디바이스이며, 수평적 확장되는 중복 
 5. 먼저 SSH로 Public subnet에 있는 EC2 인스턴스에 접속한다. 
 	1. AWS CLI를 이용해 AWS S3의 Bucket 목록을 불러온다. ```$ aws s3 ls ```
 	2. 정상 동작 확인!
-6. 현재 EC2에서 Private subnet에 생성한 EC2 인스턴스에 접속한다. (VPC 밖에서 접근 불가)
+6. 현재 Public subnet에 위치한 EC2에서 Private subnet에 생성한 EC2 인스턴스에 접속한다. (Public IP가 없기 때문에 VPC 밖에서는 접근할 수 없음)
 	1. AWS CLI를 이용해 AWS S3의 Bucket 목록을 불러온다. ```$ aws s3 ls ```
 	2. 한참이 지나도 안됨!!
 7. AWS 콘솔에서 VPC > Endpoints 메뉴에서 "Create Endpoint"를 선택한다.
