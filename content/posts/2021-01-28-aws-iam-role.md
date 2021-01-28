@@ -1,15 +1,17 @@
 ---
-title: "AWS IAM 역할(Role)은 정확히 무엇인가요? 어떻게 써야 하나요! 나만 모르나"
+title: "AWS IAM 역할(Role)은 정확히 무엇인가요? 어떻게 써야 할까요"
 date: 2021-01-28T23:23:55+09:00
 draft: false
 toc: false
-images: [/images/daniel-von-appen-vBvfXIqC4E4-unsplash.jpg]
+images: [/images/christian-wakolbinger-GKboC2_Yt8k-unsplash.jpg]
 tags:
   - aws
 categories:
   - aws
 description: IAM 역할(Role)이 정확히 어떤 목적으로 사용되는지 어떻게 활용할 수 있는지 알아봅니다.
 ---
+
+{{< image src="/images/christian-wakolbinger-GKboC2_Yt8k-unsplash.jpg" position="center" style="border-radius: 8px;">}}
 
 이 글에서는 IAM 역할(Role)에 대해 이해하기 위한 내용을 다뤄보려고 한다.  
 역할?이라고 하면 뭔가 뻔해 보이지만 자세히 들여다보기 전에는 조금 아리송한 부분이 있었다.   
