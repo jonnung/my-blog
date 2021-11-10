@@ -57,9 +57,9 @@ if __name__ == "__main__":
 ```
 
 Python으로 CLI 프로그램을 처음 시작할 때 거의 대부분 필요한 구문은 마지막 if 조건이다.   
-이 구문의 의미는 이 Python 모듈이 메인으로 실행되는 것을 의미하는데 쉽게 말하자면, 다른 Python 모듈에서 import 되어 쓰이는 방식이 아닐 때를 의미한다.  
+이 구문의 의미는 이 Python 모듈이 메인으로 실행되는 것을 의미하는데 쉽게 말하자면, 다른 Python 모듈에서 import 되지 않을 때를 의미한다.  
 
-`typer` 모듈을 import 하고, `run()` 메서드에 이 CLI 프로그램이 최초로 실행시킬 함수를 전달한다.   
+이제 `typer` 모듈을 import 한 뒤 `run()` 메서드를 호출할 때 실행시킬 함수를 전달한다.   
 
 
 <br/>
@@ -96,7 +96,7 @@ typer.echo(f"{greeting} {friend}")
 ### 명령어 실행에 전달할 Argument와 Option
 CLI 프로그램이 제공할 여러 가지 기능 중 원하는 기능을 선택하고, 세부적인 동작을 제어하기 위해 실행 명령어 다음에 전달하는 값들을 Argument와 Option이라고 부른다.  
 
-보통 Argument와 Option을 구분하는 큰 차이점은 Argument는 필수이고, Option은 선택적이다. 그리고 Option을 전달할 때는 `--`와 Option 이름을 함께 명시하는 특징이 있다. (예: `--size`)  
+보통 Argument와 Option을 구분하는 큰 차이점은 Argument는 필수이고, Option은 선택적이다. 그리고 Option을 전달할 때는 `--`와 Option 이름을 함께 명시하는 관행이 있다. (예: `--size`)  
 
 ```python
 # sample.py
@@ -115,7 +115,7 @@ if __name__ == "__main__":
 ```
 
 위 코드에서 `name`, `lastname`은 필수 Argument이고, `formal`은 선택적인 Option이다.   
-즉, 함수 파라미터에 기본값을 지정되면 Option이 되는 것이다.  
+즉, 함수의 파라미터가 기본값을 갖게 되면 Option을 자동으로 사용할 수 있게 된다.   
 
 ```shell
 python sample.py eunwoo cho --formal
