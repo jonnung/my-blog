@@ -21,6 +21,8 @@ googleAnalytics = "UA-43871004-5"
   defaultTheme = "light"
   comments = true
 
+  custom_css = ["css/main.css"]
+
 [languages]
   [languages.en]
     title = "조은우 개발 블로그"

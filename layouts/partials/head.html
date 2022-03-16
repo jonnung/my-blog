@@ -68,3 +68,7 @@
 <meta property="og:site_name" content="{{ .Site.Title }}"/>
 <meta property="og:url" content="{{ .Site.BaseURL }}"/>
 <meta property="og:locale" content="ko">
+
+{{ range .Site.Params.custom_css -}}
+    <link rel="stylesheet" href="{{ . | absURL }}">
+{{- end }}
