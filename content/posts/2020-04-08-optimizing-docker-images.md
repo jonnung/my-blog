@@ -73,9 +73,9 @@ docker.io/library/nginx:latest
 {{< image src="/images/alpine_linux.svg" position="center" style="width: 60%">}}
 
 보통 *[Alpine 리눅스 도커 이미지](https://hub.docker.com/_/alpine)* 로 시작하는 것을 추천한다.   
-그 이유는 다른 리눅스 배포판과 비교해 사이즈가 훨씬 작기 때문이다. Alpine 리눅스는 용량이 적은 비결은 C 라이브러리로 `musl`을 채택했고, 다양한 유닉스 도구들을 탑재한 `busybox`를 기반으로 하고 있기 때문이다. 
+그 이유는 다른 리눅스 배포판과 비교해 사이즈가 훨씬 작기 때문이다. Alpine 리눅스는 용량이 작은 이유는 C 라이브러리로 `musl`을 채택했고, 다양한 유닉스 도구들을 탑재한 `busybox`를 기반으로 하고 있기 때문이다. 
 
-그런데 만약 **Python 애플리케이션 환경**에서 베이스 이미지를 선택할 때는 Alpine 리눅스를 추천하지 않는다. 그 이유는 [Using Alpine can make Python Docker builds 50× slower](https://pythonspeed.com/articles/alpine-docker-python/) 글을 읽어보는 것을 추천한다.  
+하지만 **Python 애플리케이션 환경**에서 베이스 이미지를 선택할 때는 Alpine 리눅스를 추천하지 않는다. 그 이유는 [Using Alpine can make Python Docker builds 50× slower](https://pythonspeed.com/articles/alpine-docker-python/) 글을 읽어보는 것을 추천한다.  
 
 {{< image src="/images/docker_python.png" position="center" style="width: 70%">}}
 
