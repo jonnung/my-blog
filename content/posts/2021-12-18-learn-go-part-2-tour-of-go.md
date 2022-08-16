@@ -200,7 +200,7 @@ default:
 `switch`의 조건문에 꼭 상수만 쓸 수 있는 것은 아니다. 아래와 같이 짧은 변수를 선언하고, 즉시 사용할 수 있다.  
 
 ```go
-swaich os := runtime.GOOS; os {
+switch os := runtime.GOOS; os {
 case "darwin":
   fmt.Println("MAC OS")
 case "linux":
