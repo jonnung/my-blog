@@ -1,0 +1,17 @@
+<nav class="menu">
+    <script async src="https://cse.google.com/cse.js?cx=65ba02f1c828444ec"></script>
+    <ul class="menu__inner">
+        {{- $currentPage := . -}}
+        {{ range .Site.Menus.main -}}
+            <li><a href="{{ .URL | absLangURL }}">{{ .Name }}</a></li>
+        {{- end }}
+        <li><div class="gcse-search"></div></li>
+    </ul>
+</nav>
+
+<style type="text/css">
+.gsc-control-cse {
+  border: 0px;
+  background-color: transparent;
+}
+</style>
