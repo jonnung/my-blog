@@ -35,7 +35,12 @@
 {{- partial "favicons.html" }}
 
 {{- template "_internal/schema.html" . }}
+<!-- Inline Schema -->
+<meta itemprop="image" content="{{ if .Params.thumbnail -}}{{ .Params.thumbnail|absURL }}{{ else if hasPrefix .File.Path "post" -}}{{ path.Join "images/tcard" (print .File.BaseFileName ".png") | absURL }}{{ else -}}{{ "" }}{{ end -}}">
+
 {{- template "_internal/twitter_cards.html" . }}
+<!-- Inline Twitter card -->
+<meta name="twitter:image" content="{{ if .Params.thumbnail -}}{{ .Params.thumbnail|absURL }}{{ else if hasPrefix .File.Path "post" -}}{{ path.Join "images/tcard" (print .File.BaseFileName ".png") | absURL }}{{ else -}}{{ "" }}{{ end -}}"/>
 
 {{ range .Params.categories }}
 <meta property="article:section" content="{{ . }}" />{{ end }}
