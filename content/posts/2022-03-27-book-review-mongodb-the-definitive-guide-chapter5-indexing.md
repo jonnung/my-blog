@@ -7,6 +7,8 @@ images: [/images/mongodb_the_definitive_guide.jpg]
 tags:
   - mongodb
   - book
+categories:
+  - book
 description: MongoDB 인덱스에 대해 효과적인 인덱싱 전략을 위해서 가장 중요한 것은 “Selectivity(선택성)“를 높이는 것이다. 즉, 최대한 좁은 범위를 탐색할 수 있도록 인덱스를 만들어야 한다.
 url: /book/2022/03/27/book-review-mongodb-the-definitive-guide-chapter5-indexing/
 ---

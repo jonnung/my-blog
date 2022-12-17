@@ -1,0 +1,29 @@
+template:
+title:
+  fontSize: 63
+  start:
+    px: 123
+    py: 180
+category:
+  start:
+    px: 126
+    py: 441
+  fontSize: 38
+  fontStyle: Regular
+siteTitle:
+  customValue: "조은우 개발 블로그"
+  start:
+    px: 126
+    py: 119
+  fontSize: 42
+  fontStyle: Regular
+tags:
+  start:
+    px: 1070
+    py: 451
+  bgHexColor: "#000000"
+info:
+  start:
+    px: 126
+    py: 445
+  separator: " "

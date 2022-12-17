@@ -6,6 +6,8 @@ toc: false
 images: [https://raw.githubusercontent.com/egonelbre/gophers/master/sketch/fairy-tale/messenger-showing.png]
 tags:
   - golang
+categories:
+  - programing language
 description: Go에서 어떨 때 string 타입과 []byte 타입으로 선언해야 할지 고민하게 되면서 공부한 내용입니다. 이 글에서는 유니코드와 UTF-8 인코딩에 대한 기초적인 내용은 다루지 않으니 따로 학습하는 것을 추천합니다. 
 url: /golang/2022/08/16/go-string-bytes-slice/
 ---

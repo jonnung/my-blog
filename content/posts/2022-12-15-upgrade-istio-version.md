@@ -1,11 +1,13 @@
 ---
 title: "Istio 버전 업그레이드 실습 가이드"
 date: 2022-12-15T11:59:39+09:00
+author: jonnung
 draft: false
 toc: false
 images:
 tags:
   - istio
+  - kubernetes
 categories:
   - kubernetes
   - tutorial
