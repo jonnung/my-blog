@@ -1,9 +1,15 @@
 baseurl = "https://jonnung.dev"
 languageCode = "ko-kr"
+DefaultContentLanguage = "ko"
 theme = "hello-friend-ng"
 favicon = "favicon.ico"
 enableEmoji = true
 googleAnalytics = "UA-43871004-5"
+canonifyurls = true
+
+[author]
+name = "jonnung"
+
 [params]
   dateform        = "Jan 2, 2006"
   dateformShort   = "Jan 2"
@@ -12,7 +18,7 @@ googleAnalytics = "UA-43871004-5"
 
   # Metadata mostly used in document's head
   description = "조은우 개발자 블로그"
-  keywords = "blog, development, programming, tech, python, javascript, golang, go, postgresql, devops, elasticsearch, fluend, kubernetes, docker"
+  keywords = "blog, development, programming, tech, python, javascript, golang, go, postgresql, devops, elasticsearch, fluend, kubernetes, docker, aws"
   images = [""]
 
   # Directory name of your blog content (default is `content/posts`)
@@ -25,14 +31,14 @@ googleAnalytics = "UA-43871004-5"
 
 [languages]
   [languages.en]
-    title = "조은우 개발 블로그"
+    title = "jonnung's tech blog"
     subtitle = ""
-    keywords = "blog, development, programming, tech, python, javascript, golang, go, postgresql, devops, elasticsearch, fluend, kubernetes, docker"
+    keywords = "blog, development, programming, tech, python, javascript, golang, go, postgresql, devops, elasticsearch, fluend, kubernetes, docker, aws"
     copyright = "Jonnung"
     readOtherPosts = "Read other posts"
 
     [languages.en.params.logo]
-      logoText = "조은우 개발 블로그"
+      logoText = "jonnung's tech blog"
       logoHomeLink = "/"
     # or
     #
@@ -56,6 +62,40 @@ googleAnalytics = "UA-43871004-5"
       [[languages.en.menu.main]]
         identifier = "tags"
         name = "Tags"
+        url = "/tags"
+
+  [languages.ko]
+    title = "조은우 개발 블로그"
+    subtitle = ""
+    keywords = "blog, development, programming, tech, python, javascript, golang, go, postgresql, devops, elasticsearch, fluend, kubernetes, docker, aws"
+    copyright = "Jonnung"
+    readOtherPosts = "Read other posts"
+
+    [languages.ko.params.logo]
+      logoText = "조은우 개발 블로그"
+      logoHomeLink = "/"
+    # or
+    #
+    # path = "/img/your-example-logo.svg"
+    # alt = "Your example logo alt text"
+
+	# You can create a language based menu
+    [languages.ko.menu]
+      # [[languages.en.menu.main]]
+      #   identifier = "about"
+      #   name = "About"
+      #   url = "/about"
+      [[languages.ko.menu.main]]
+        identifier = "posts"
+        name = "게시물"
+        url = "/posts"
+      [[languages.ko.menu.main]]
+        identifier = "categories"
+        name = "카테고리"
+        url = "/categories"
+      [[languages.ko.menu.main]]
+        identifier = "tags"
+        name = "태그"
         url = "/tags"
 
 [sitemap]
