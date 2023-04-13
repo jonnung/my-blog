@@ -87,10 +87,10 @@ An error occurred (AccessDenied) when calling the ListBuckets operation: Access 
 #### (3) S3BucketListReadOnlyRole 역할 획득하기
 ```shell
 $ aws sts assume-role --profile jonnung \
-  --role-arn arn:aws:iam::298070123292:role/S3BucketListReadOnlyRole \
+  --role-arn arn:aws:iam::***********:role/S3BucketListReadOnlyRole \
   --role-session-name "jonnung-s3-role"
 
-An error occurred (AccessDenied) when calling the AssumeRole operation: User: arn:aws:iam::298070123292:user/jonnung is not authorized to perform: sts:AssumeRole on resource: arn:aws:iam::298070123292:role/S3BucketListReadOnlyRole
+An error occurred (AccessDenied) when calling the AssumeRole operation: User: arn:aws:iam::***********:user/jonnung is not authorized to perform: sts:AssumeRole on resource: arn:aws:iam::***********:role/S3BucketListReadOnlyRole
 ```
 
 'S3BucketListReadOnlyRole' 역할의 신뢰 정책(Trust Policy)에 담당자(Principal)로 'jonnung'이라는 IAM 사용자가 등록되어 있지 않기 때문에 실패!
