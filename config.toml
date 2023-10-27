@@ -17,7 +17,7 @@ name = "jonnung"
   dateformNumTime = "2006-01-02 15:04 -0700"
 
   # Metadata mostly used in document's head
-  description = "개발 블로그"
+  description = "조은우 기술 블로그"
   keywords = "blog, development, programming, tech, python, javascript, golang, go, postgresql, devops, elasticsearch, fluend, kubernetes, docker, aws"
   images = [""]
 
@@ -65,14 +65,14 @@ name = "jonnung"
         url = "/tags"
 
   [languages.ko]
-    title = "개발 블로그"
+    title = "조은우 기술 블로그"
     subtitle = ""
     keywords = "blog, development, programming, tech, python, javascript, golang, go, postgresql, devops, elasticsearch, fluend, kubernetes, docker, aws"
     copyright = "Jonnung"
     readOtherPosts = "Read other posts"
 
     [languages.ko.params.logo]
-      logoText = "개발 블로그"
+      logoText = "조은우 기술 블로그"
       logoHomeLink = "/"
     # or
     #
