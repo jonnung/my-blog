@@ -81,7 +81,6 @@ $ ip addr
 ]
 ```
 
-<br>
 ## 도커 컨테이너를 생성하게 되면 생기는 일
 컨테이너는 Linux Namespace 기술을 이용해 각자 격리된 네트워크 공간을 할당받게 된다.  
 그리고 위에서 언급한 대로 `172.17.0.0/16` 대역의 IP를 순차적으로 할당 받는다. 이 IP는 컨테이너가 재시작할 때마다 변경될 수 있다.  
@@ -94,14 +93,13 @@ $ ip addr
 
 {{< image src="/images/docker_network.png" position="center" style="border-radius: 8px; box-shadow: 0px 0px 13px 2px rgba(0,0,0,0.3);">}}
 
-<br/>
 직접 확인해보기 위해 간단한 도커 컨테이너 2개를 실행시켜본다.  
 `busybox`이미지를 이용해서 5분간 Sleep 상태를 유지 하도록 했다.  
 ```
 $ docker run -d --rm --name busybox1 busybox sleep 300
 $ docker run -d --rm --name busybox2 busybox sleep 300
 ```
-<br/>
+
 먼저 컨테이너 내부 네트워크 인터페이스를 확인해보자.(Ubuntu 18.04 기준)  
 `eth0` 인터페이스에 각각 `172.17.0.2`, `172.17.0.3` IP가 할당 되었다.  
 
@@ -130,8 +128,9 @@ $ docker exec -it busybox2 ip addr
     inet 172.17.0.3/16 brd 172.17.255.255 scope global eth0
        valid_lft forever preferred_lft forever
 ```
-<br/>
+
 이제 호스트의 네트워크 인터페이스를 보면 `veth4eb48a6`, `veth40d220d` 가상 인터페이스가 새로 생성된 것을 볼 수 있다.  
+
 ```
 $ ip link
 
@@ -143,8 +142,9 @@ $ ip link
 21: veth40d220d@if20: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP mode DEFAULT group default
     link/ether 16:e1:c4:6c:eb:e8 brd ff:ff:ff:ff:ff:ff link-netnsid 1
 ```
-<br/>
+
 `brctl` 명령어를 통해 브리지 네트워크 상태를 확인해보면 `veth4eb48a6`, `veth40d220d` 인터페이스가 `docker0` 브리지에 연결된 것을 확인할 수 있다.  
+
 ```
 $ brctl show
 
@@ -152,8 +152,9 @@ bridge name	bridge id		STP enabled	interfaces
 docker0		8000.024290f4b3c5	no		veth4eb48a6
 											veth40d220d
 ```
-<br/>
+
 두 컨테이너(`busybox1`, `busybox2`)는 브리지를 통해 같은 네트워크상에 있기 때문에 한쪽 컨테이너에서 다른 컨테이너와 통신할 수 있게 된다.
+
 ```
 $ docker exec -it busybox2 ping 172.17.0.2
 
@@ -164,8 +165,9 @@ PING 172.17.0.2 (172.17.0.2): 56 data bytes
 64 bytes from 172.17.0.2: seq=3 ttl=64 time=0.072 ms
 
 ```
-<br/>
+
 마지막으로 컨터이너의 게이트웨이를 확인 해보면 `172.17.0.1`된 것을 볼 수 있는데 결국 컨테이너 내부의 모든 패킷이 호스트의 `docker0`을 통해 외부로 나가게 되는 것을 확인할 수 있다.  
+
 ```
 $ docker exec -it busybox1 route
 
@@ -175,7 +177,6 @@ default         172.17.0.1      0.0.0.0         UG    0      0        0 eth0
 172.17.0.0      *               255.255.0.0     U     0      0        0 eth0
 ```
 
-<br/>
 ## 참고
 - [Docker Network 구조(1) - docker0와 container network 구조](https://bluese05.tistory.com/15)
 - [시작하세요! 도커/쿠버네티스 - YES24](http://www.yes24.com/Product/Goods/84927385)
